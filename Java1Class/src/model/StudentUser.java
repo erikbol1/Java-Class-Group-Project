@@ -23,12 +23,6 @@ public class StudentUser {
 		studentLogin = login;
 		studentEmail = email;
 		studentPhone = phone;
-		//System.out.println("My name is " + studentFirstName + " " + studentLastName);
-	}
-
-	//Default constructor if no inputs
-	public StudentUser () {
-		System.out.println("Please enter your student information.");
 	}
 
 	//Methods (getters & setters) to View Account Details
@@ -38,17 +32,9 @@ public class StudentUser {
 		return studentId;
 	}
 
-	public void setStudentId(int id) {
-		studentId = id;
-	}
-
 	//get first name
 	public String getStudentFirstName() {
 		return studentFirstName;
-	}
-
-	public void setStudentFirstName(String firstName) {
-		studentFirstName = firstName;
 	}
 
 	//get last name
@@ -56,17 +42,9 @@ public class StudentUser {
 		return studentLastName;
 	}
 
-	public void setStudentLastName(String lastName) {
-		studentLastName = lastName;
-	}
-
 	//get login
 	public String getStudentLogin() {
 		return studentLogin;
-	}
-
-	public void setStudentLogin(String login) {
-		studentLogin = login;
 	}
 
 	//get email
@@ -74,17 +52,9 @@ public class StudentUser {
 		return studentEmail;
 	}
 
-	public void setStudentEmail(String email) {
-		studentEmail = email;
-	}
-
 	//get phone number
 	public String getStudentPhone() {
 		return studentPhone;
-	}
-
-	public void setStudentPhone(String phone) {
-		studentPhone = phone;
 	}
 
 	//get fullname
