@@ -7,24 +7,24 @@ public class Courses implements Comparable <Courses> {
 
 	//instance variables
 	private String courseId;
-	private Calendar courseStartDate;
-	private Calendar courseEndDate;
-	private String courseName;
-	private String courseSummary;
-	private int courseEnrollmentLimit;
+	private Calendar startDate;
+	private Calendar endDate;
+	private String name;
+	private String description;
+	private int enrollmentLimit;
 	private int currentNumEnrolled;
 	
 	SimpleDateFormat dateFormatter;
 
 	//Constructor to take inputs
 	public Courses (String id, Calendar startDate, Calendar endDate, String name, String summary, int limit, int numEnrolled) {
-		courseId = id;
-		courseStartDate = startDate;
-		courseEndDate = endDate;
-		courseName = name;
-		courseSummary = summary;
-		courseEnrollmentLimit = limit;
-		currentNumEnrolled = numEnrolled;
+		this.courseId = id;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.name = name;
+		this.description = summary;
+		this.enrollmentLimit = limit;
+		this.currentNumEnrolled = numEnrolled;
 		
 		dateFormatter = new SimpleDateFormat();
 		dateFormatter.applyPattern("yyyy-MM-dd");
@@ -35,28 +35,28 @@ public class Courses implements Comparable <Courses> {
 	}
 
 	//get course start date
-	public String getCourseStartDate() {
-		return dateFormatter.format(courseStartDate.getTime());
+	public String getStartDate() {
+		return dateFormatter.format(startDate.getTime());
 	}
 
 	//get course end date
-	public String getCourseEndDate() {
-		return dateFormatter.format(courseEndDate.getTime());
+	public String getEndDate() {
+		return dateFormatter.format(endDate.getTime());
 	}
 
 	//get course name
-	public String getCourseName() {
-		return courseName;
+	public String getName() {
+		return name;
 	}
 
 	//get course summary
-	public String getCourseSummary() {
-		return courseSummary;
+	public String getSummary() {
+		return description;
 	}
 
 	//get enrollment limit
-	public int getCourseEnrollmentLimit() {
-		return courseEnrollmentLimit;
+	public int getEnrollmentLimit() {
+		return enrollmentLimit;
 	}
 
 	//get number of students enrolled
@@ -65,13 +65,14 @@ public class Courses implements Comparable <Courses> {
 	}
 
 	//print string with course information
+	@Override
 	public String toString() {
-		return "[courseId: " + courseId + ", courseStartDate:" + getCourseStartDate() + ", courseEndDate:" + getCourseEndDate() + ", courseName: " + courseName + ", courseSummary: " + courseSummary + ", courseEnrollmentLimit: " + courseEnrollmentLimit + ", currentNumEnrolled: " + currentNumEnrolled + "]";
+		return "[courseId: " + courseId + ", courseStartDate:" + getStartDate() + ", courseEndDate:" + getEndDate() + ", courseName: " + name + ", courseSummary: " + description + ", courseEnrollmentLimit: " + enrollmentLimit + ", currentNumEnrolled: " + currentNumEnrolled + "]";
 	}
 
 	//create course comparison method to compare course name to sort alphabetically
 	public int compareTo(Courses course){
-		return courseName.compareTo(course.getCourseName());
+		return name.compareToIgnoreCase(course.name);
 	}
 
 }

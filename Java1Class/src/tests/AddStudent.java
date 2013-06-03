@@ -14,7 +14,7 @@ public class AddStudent {
 		//Create an ArrayList of type StudentUser to store list of students
 		List<StudentUser> studentList = new ArrayList<StudentUser>();
 
-		StudentUser student1 = new StudentUser(123098, "Jane","Wu","janewu", "janewu@uci.edu","555-555-5551");
+		StudentUser student1 = new StudentUser(123098, "Jane", "Wu", "janewu", "janewu@uci.edu", 5555555551L);
 		System.out.println("Student: " + student1.toString());
 		System.out.println();
 

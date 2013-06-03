@@ -111,22 +111,22 @@ public class CourseListing {
 		Collections.sort(courseList);
 
 		//initialize course counter
-		int i = 0;
+		int courseCounter = 0;
 
 		System.out.println("Alphabetical course listing");
 		for (Courses course: courseList){
-			if (course.getCurrentNumEnrolled() < course.getCourseEnrollmentLimit()){
-				System.out.println("Course " + i + ": "+ course.toString());
+			if (course.getCurrentNumEnrolled() < course.getEnrollmentLimit()){
+				courseCounter++;
+				System.out.println("Course " + courseCounter + ": "+ course.toString());
 				System.out.println();
-				i = i + 1;
 			};
-
 		}
-
+		
+		
 		//print out number of available courses
 		System.out.println("Total number of courses: " + courseList.size());
-		System.out.println("Total number of available courses:" + i);
-		System.out.println("Total unavailable courses:" + (courseList.size() - i));
+		System.out.println("Total number of available courses: " + courseCounter);
+		System.out.println("Total unavailable courses: " + (courseList.size() - courseCounter));
 		System.out.println();
 
 
