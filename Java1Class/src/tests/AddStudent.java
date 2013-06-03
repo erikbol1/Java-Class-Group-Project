@@ -1,23 +1,26 @@
-//add Students -- this is mainly just test code to make sure that the StudentUser class is working
+package tests;
 
-//import java API's
-import java.io.*;
-import java.util.*;
-import org.apache.commons.lang3.*;
+import java.util.ArrayList;
+import java.util.List;
 
-class AddStudent {
+import model.StudentUser;
 
-  public static void main (String[] args) {
-	//Create an ArrayList of type StudentUser to store list of students
-		ArrayList<StudentUser> studentList = new ArrayList<StudentUser>();
-			System.out.println("Initial size of array: " + studentList.size());
-			System.out.println();
+/**
+ * This is mainly just test code to make sure that the StudentUser class is working.
+ */
+public class AddStudent {
 
-	StudentUser student1 = new StudentUser(123098, "Jane","Wu","janewu", "janewu@uci.edu","555-555-5551");
-			System.out.println("Student: " + student1.toString());
-			System.out.println();
+	public static void main (String[] args) {
+		//Create an ArrayList of type StudentUser to store list of students
+		List<StudentUser> studentList = new ArrayList<StudentUser>();
+		System.out.println("Initial size of array: " + studentList.size());
+		System.out.println();
 
-	//Add each of the student objects to the array list.
+		StudentUser student1 = new StudentUser(123098, "Jane","Wu","janewu", "janewu@uci.edu","555-555-5551");
+		System.out.println("Student: " + student1.toString());
+		System.out.println();
+
+		//Add each of the student objects to the array list.
 		studentList.add(student1);
 		System.out.println("Initial size of array: " + studentList.size());
 		System.out.println();

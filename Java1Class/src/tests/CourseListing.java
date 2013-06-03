@@ -1,21 +1,24 @@
-//Creates course objects, adds courses to an arraylist and sorts courses in alphabetical order.
+package tests;
 
-//import java API's
-import java.io.*;
-import java.util.*;
-import org.apache.commons.lang3.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
+import model.Courses;
 
-class CourseListing {
+/**
+ * Creates course objects, adds courses to an arraylist and sorts courses in alphabetical order.
+ */
+public class CourseListing {
 
-  public static void main (String[] args) {
+	public static void main (String[] args) {
 
-	//Create an ArrayList of type Courses to store list of courses
-		ArrayList<Courses> courseList = new ArrayList<Courses>();
-			System.out.println("Initial size of array: " + courseList.size());
-			System.out.println();
+		//Create an ArrayList of type Courses to store list of courses
+		List<Courses> courseList = new ArrayList<Courses>();
+		System.out.println("Initial size of array: " + courseList.size());
+		System.out.println();
 
-	//create 10 course Objects to store in an arraylist
+		//create 10 course Objects to store in an arraylist
 
 		Courses course1 = new Courses("CS460", "2013-06-01","2013-08-31","Java Programming I", "Java is an excellent choice for those new to programming wishing to enhance their current skillset or change their career. The aim of this course is to provide students with the knowledge and competencies to be able to write and design sophisticated professional programs using Java through exercises.",10,1);
 		System.out.println("Course 1: " + course1.toString());
@@ -57,7 +60,7 @@ class CourseListing {
 		System.out.println("Course 10: " + course10.toString());
 		System.out.println();
 
-	//Add each of the 10 course objects to the arraylist.
+		//Add each of the 10 course objects to the arraylist.
 		courseList.add(course1);
 		courseList.add(course2);
 		courseList.add(course3);
@@ -69,8 +72,8 @@ class CourseListing {
 		courseList.add(course9);
 		courseList.add(course10);
 
-	//sort courses alphabetically, but limit print out only courses that have seats available.
-	//Would it be better to just remove these from the arraylist and not even show them???
+		//sort courses alphabetically, but limit print out only courses that have seats available.
+		//Would it be better to just remove these from the arraylist and not even show them???
 		Collections.sort(courseList);
 
 		//initialize course counter
@@ -87,10 +90,10 @@ class CourseListing {
 		}
 
 		//print out number of available courses
-			System.out.println("Total number of courses: " + courseList.size());
-			System.out.println("Total number of available courses:" + i);
-			System.out.println("Total unavailable courses:" + (courseList.size() - i));
-			System.out.println();
+		System.out.println("Total number of courses: " + courseList.size());
+		System.out.println("Total number of available courses:" + i);
+		System.out.println("Total unavailable courses:" + (courseList.size() - i));
+		System.out.println();
 
 
 	}
