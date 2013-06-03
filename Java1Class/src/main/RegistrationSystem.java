@@ -1,9 +1,7 @@
 package main;
 
-import java.text.ParseException;
+import util.NotImplementedException;
 
-import tests.AddStudent;
-import tests.CourseListing;
 
 /**
  * 
@@ -16,13 +14,7 @@ public class RegistrationSystem {
 	 * @param args Not used at this time.
 	 */
 	public static void main(String[] args)  {
-		AddStudent.main(null);
-		try {
-			CourseListing.main(null);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}		
+		throw new NotImplementedException("Registration System is not implemented.");
 	}
 
 }

@@ -1,6 +1,5 @@
 package tests;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -14,7 +13,7 @@ import model.Courses;
  */
 public class CourseListing {
 
-	public static void main (String[] args) throws ParseException {
+	public static void main (String[] args){
 
 		//Create an ArrayList of type Courses to store list of courses
 		List<Courses> courseList = new ArrayList<Courses>();
