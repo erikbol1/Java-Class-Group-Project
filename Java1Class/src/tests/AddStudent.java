@@ -3,7 +3,9 @@ package tests;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.StudentUser;
+import model.ContactInfo;
+import model.Name;
+import model.Student;
 
 /**
  * This is mainly just test code to make sure that the StudentUser class is working.
@@ -12,9 +14,9 @@ public class AddStudent {
 
 	public static void main (String[] args) {
 		//Create an ArrayList of type StudentUser to store list of students
-		List<StudentUser> studentList = new ArrayList<StudentUser>();
+		List<Student> studentList = new ArrayList<Student>();
 
-		StudentUser student1 = new StudentUser(123098, "Jane", "Wu", "janewu", "janewu@uci.edu", 5555555551L);
+		Student student1 = new Student(123098, new Name("Jane", "Wu"), "janewu", new ContactInfo("janewu@uci.edu", 5555555551L));
 		System.out.println("Student: " + student1.toString());
 		System.out.println();
 
