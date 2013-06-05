@@ -35,6 +35,8 @@ public class MainMenu implements Menu{
 		switch (userInput){
 		case "X": System.exit(0);
 		case "V": return AvailableCoursesMenu.getInstance(null);
+		case "L": return LoginMenu.getInstance();
+		case "C": return CreateAccountMenu.getInstance();
 		}
 		
 		//Input not found in switch statement so it is invalid

@@ -2,11 +2,12 @@ package persistance;
 
 import java.util.List;
 
+
 import model.Course;
 import model.Student;
 
 
-public enum DataRepository implements CourseRepository, StudentRepository{
+public enum DataRepository implements CourseRepository, StudentRepository, Administration{
 
 	INSTANCE;//Single item enum to enforce Singleton.  Effective Java item 3.
 	private final CourseRepository courseRepository; //Reference by interface
@@ -16,7 +17,7 @@ public enum DataRepository implements CourseRepository, StudentRepository{
 		courseRepository = new StaticCourseRepository();
 		studentRepository = new StaticStudentRepository();//Used for convenience. This implementation does not complete requirements.
 	}
-	//We might need to move this to a different spot.
+	@Override//We might want to move this to a different spot.
 	public boolean enrollStudentInCourse(String username, Course course){
 		//Try to incrementEnrollment
 		if (course.incrementEnrollment()){
@@ -40,7 +41,10 @@ public enum DataRepository implements CourseRepository, StudentRepository{
 	public boolean saveStudent(Student student) {
 		return studentRepository.saveStudent(student);
 	}
-
+	@Override
+	public int nextStudentID() {
+		return studentRepository.nextStudentID();
+	}
 	@Override
 	public List<Course> getAvailableCourses() {
 		return courseRepository.getAvailableCourses();
@@ -60,4 +64,5 @@ public enum DataRepository implements CourseRepository, StudentRepository{
 	public boolean updateCourse(Course course) {
 		return courseRepository.updateCourse(course);
 	}
+	
 }

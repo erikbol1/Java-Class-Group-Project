@@ -2,6 +2,8 @@ package view;
 
 import java.util.List;
 
+import persistance.Administration;
+import persistance.CourseRepository;
 import persistance.DataRepository;
 
 import main.AuthenticationService;
@@ -11,8 +13,13 @@ public class AvailableCoursesMenu implements Menu{
 
 	private static final Menu availableCoursesMenu = new AvailableCoursesMenu();
 	private static String currentUser;
+	private static CourseRepository courseRepository;
+	private static Administration administration;
 	
-	private AvailableCoursesMenu(){}//Prevent subclassing	
+	private AvailableCoursesMenu(){
+		courseRepository = DataRepository.INSTANCE;
+		administration = DataRepository.INSTANCE;
+	}
 	
 	public static Menu getInstance(String username){
 		currentUser = username;
@@ -26,7 +33,7 @@ public class AvailableCoursesMenu implements Menu{
 		System.out.println(Decoration.DIVIDER);
 
 		//Print available courses
-		for(Course course: DataRepository.INSTANCE.getAvailableCourses()){
+		for(Course course: courseRepository.getAvailableCourses()){
 			System.out.println("ID: " + course.getCourseId());
 			System.out.println("Name: " + course.getName());
 			System.out.println("Description: " + course.getSummary());
@@ -53,11 +60,11 @@ public class AvailableCoursesMenu implements Menu{
 		//Process user input to see if they want to go to the main menu
 		String selection = input.toUpperCase().substring(0, 1);
 		
-		List<Course> courses = DataRepository.INSTANCE.getAvailableCourses();
+		List<Course> courses = courseRepository.getAvailableCourses();
 		//Search for course
 		for (Course course: courses)
 			if (input.equalsIgnoreCase(course.getCourseId()))
-				if (DataRepository.INSTANCE.enrollStudentInCourse(currentUser, course)){
+				if (administration.enrollStudentInCourse(currentUser, course)){
 					selection = "M"; //Return user to appropriate main menu
 					System.out.println("Registration Successful."); //Display confirmation
 				}

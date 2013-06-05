@@ -55,4 +55,13 @@ public class StaticStudentRepository implements StudentRepository{
 		
 		return output;
 	}
+	@Override
+	public int nextStudentID() {
+		int nextId = 1;
+		for(Student student: students)
+			if (student.getStudentId() > nextId)
+				nextId = student.getStudentId() + 1;
+		
+		return nextId;
+	}
 }
