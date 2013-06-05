@@ -48,7 +48,9 @@ public class TestStaticStudentRepository {
 	}
 	@Test
 	public void testSaveValidStudent(){
-		assertTrue(sut.saveStudent(new Student(1, new Name("Bob", "Smith"), "bob", new ContactInfo("a@abc.com", 23L))));
+		Student temp = new Student(1, new Name("Bob", "Smith"), "bob", new ContactInfo("a@abc.com", 23L));
+		assertTrue(sut.saveStudent(temp));
+		assertEquals(temp, sut.getStudent(temp.getUsername()));
 	}
 	@Test
 	public void testSaveExistingStudent(){

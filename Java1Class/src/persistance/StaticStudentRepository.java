@@ -9,7 +9,7 @@ import model.Student;
 
 public class StaticStudentRepository implements StudentRepository{
 
-	List<Student> students;
+	private List<Student> students;
 	
 	public StaticStudentRepository(){
 		students = initializeStudentList();
@@ -39,7 +39,15 @@ public class StaticStudentRepository implements StudentRepository{
 		//Save new student
 		return students.add(newStudent);
 	}
-
+	@Override
+	public int nextStudentID() {
+		int nextId = 1;
+		for(Student student: students)
+			if (student.getStudentId() > nextId)
+				nextId = student.getStudentId() + 1;
+		
+		return nextId;
+	}
 	/**
 	 * Build our static list of students
 	 * @return our students
@@ -54,14 +62,5 @@ public class StaticStudentRepository implements StudentRepository{
 		output.add(student1);
 		
 		return output;
-	}
-	@Override
-	public int nextStudentID() {
-		int nextId = 1;
-		for(Student student: students)
-			if (student.getStudentId() > nextId)
-				nextId = student.getStudentId() + 1;
-		
-		return nextId;
 	}
 }

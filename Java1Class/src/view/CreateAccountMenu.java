@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import main.AuthenticationService;
 import model.ContactInfo;
 import model.Name;
 import model.Student;
@@ -54,7 +55,6 @@ public class CreateAccountMenu implements Menu{
 			System.out.println("You have successfully created a new account.");
 			System.out.println("Please use the username " + username + " to login in the future.");
 			System.out.println("Press enter to continue.");
-			resetStudentDetails();
 		}
 		else{
 			System.out.println(Decoration.SEPARATOR);
@@ -70,7 +70,7 @@ public class CreateAccountMenu implements Menu{
 	 */
 	@Override
 	public Menu parseInput(String input) {
-		if (success)
+		if (success && AuthenticationService.INSTANCE.validate(username))
 			return AuthenticatedMainMenu.getInstance(username);
 
 		//Ensure input is present
@@ -84,13 +84,12 @@ public class CreateAccountMenu implements Menu{
 		switch (menuCheck){
 		case "M": return MainMenu.getInstance();
 		case "Y": 
-			resetStudentDetails();
+			loopIndex = 0;
 			return MainMenu.getInstance();
 		case "N":
 			createUserLoop();
 			return createAccountMenu;
 		}
-			
 
 		//Switch to populate student attributes
 		switch (loopIndex){
@@ -152,21 +151,11 @@ public class CreateAccountMenu implements Menu{
 				//e.printStackTrace(); //Uncomment if needed for debugging purposes
 			}
 		} 
-
+		//Build newStudent
 		Student newStudent = new Student(studentRepository.nextStudentID(), new Name(firstName, lastName), username, new ContactInfo(email, phoneNumber));
-		
+		//Save student
 		if (studentRepository.saveStudent(newStudent))
 			success = true;
-	}
-	
-	private void resetStudentDetails(){
-		firstName = null;
-		lastName = null;
-		username = null;
-		email = null;
-		phoneNumber = 0L;
-		//Reset loop index
-		loopIndex = 0;
 	}
 
 }

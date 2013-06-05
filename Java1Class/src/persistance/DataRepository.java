@@ -19,17 +19,27 @@ public enum DataRepository implements CourseRepository, StudentRepository, Admin
 	}
 	@Override//We might want to move this to a different spot.
 	public boolean enrollStudentInCourse(String username, Course course){
+		//Protect against nulls
+		if (username == null || course == null)
+			return false;
+		
 		//Try to incrementEnrollment
-		if (course.incrementEnrollment()){
-			Student temp = getStudent(username);
+		if (course.getCurrentEnrollment() < course.getEnrollmentLimit()){
+			Student student = getStudent(username);
 			//Try to add the course
-			if (temp.addCourse(course.getCourseId()))
-				//Try to save the student
-				return saveStudent(temp);
-			else
+			if (student.addCourse(course.getCourseId())){
+				course.incrementEnrollment();
+				if (saveStudent(student))
+					return true;
+				else {
+					course.decrementEnrollment();
+					return false;
+				}
+			}
+			else//Can not add course
 				return false;
 		}
-		else
+		else//Max enrollment reached
 			return false;
 	}
 	@Override

@@ -1,8 +1,9 @@
 package model;
 
-import java.util.ArrayList;
+
 import java.util.Collections;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 
 /**
@@ -15,7 +16,7 @@ public class Student {
 	private final Name name;
 	private final String username;
 	private final ContactInfo contactInfo;
-	private List<String> courses;
+	private Set<String> courses;
 
 	//Constructor to take inputs
 	public Student (int id, Name name, String username, ContactInfo contactInfo) {
@@ -24,7 +25,7 @@ public class Student {
 		this.username = username;
 		this.contactInfo = contactInfo;
 		
-		courses = new ArrayList<String>();//Initialize array
+		courses = new HashSet<String>();//Initialize array
 	}
 	//get student id
 	public int getStudentId() {
@@ -57,8 +58,8 @@ public class Student {
 	/**
 	 * @return List of Course Ids for courses student is registered
 	 */
-	public List<String> getCourseList(){
-		return Collections.unmodifiableList(courses);
+	public Set<String> getCourseList(){
+		return Collections.unmodifiableSet(courses);
 	}
 	/**
 	 * Register a student for a course.

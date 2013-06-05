@@ -5,7 +5,9 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import view.AuthenticatedMainMenu;
 import view.AvailableCoursesMenu;
+import view.MainMenu;
 import view.Menu;
 
 public class TestAvailableCoursesMenu {
@@ -28,8 +30,13 @@ public class TestAvailableCoursesMenu {
 		assertSame(sut, sut.parseInput("|"));
 	}
 	@Test
-	public void testValidInputM(){
-		assertNotSame(sut, sut.parseInput("m"));
+	public void testValidInputNotAuthenticated(){
+		assertEquals(MainMenu.getInstance(), sut.parseInput("m"));
+	}
+	@Test
+	public void testValidInputAuthenticated(){
+		sut = AvailableCoursesMenu.getInstance("janewu");
+		assertEquals(AuthenticatedMainMenu.getInstance("janewu"), sut.parseInput("m"));
 	}
 
 }

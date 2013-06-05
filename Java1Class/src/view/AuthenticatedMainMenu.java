@@ -1,6 +1,5 @@
 package view;
 
-import util.NotImplementedException;
 
 public class AuthenticatedMainMenu implements Menu{
 	private static final Menu authenticatedMainMenu = new AuthenticatedMainMenu();
@@ -37,10 +36,10 @@ public class AuthenticatedMainMenu implements Menu{
 
 		//Switch on input
 		switch (userInput){
-		case "M": throw new NotImplementedException();
+		case "M": return ManageAccountMenu.getInstance(currentUser);
 		case "V": return AvailableCoursesMenu.getInstance(currentUser);
 		case "L": return MainMenu.getInstance();
-		case "R": throw new NotImplementedException();
+		case "R": return RegisterCourseMenu.getInstance(currentUser);
 		}
 		
 		//Input not found in switch statement so it is invalid

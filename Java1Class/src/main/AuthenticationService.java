@@ -12,6 +12,8 @@ public enum AuthenticationService {
 	}
 	
 	public boolean validate(String username){
+		if (username == null)
+			return false;
 		return (studentRepository.getStudent(username) != null) ? true: false;
 	}
 

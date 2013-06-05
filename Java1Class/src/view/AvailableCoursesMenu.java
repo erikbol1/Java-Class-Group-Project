@@ -71,7 +71,10 @@ public class AvailableCoursesMenu implements Menu{
 				
 		//Return to main menu
 		if (selection.equals("M"))
-			return (AuthenticationService.INSTANCE.validate(currentUser)) ? MainMenu.getInstance(): AuthenticatedMainMenu.getInstance(currentUser);
+			if (AuthenticationService.INSTANCE.validate(currentUser)) 
+				return AuthenticatedMainMenu.getInstance(currentUser);
+			else
+				return MainMenu.getInstance();
 			
 		//Input not found so it is invalid
 		System.out.println("Invalid input.");
