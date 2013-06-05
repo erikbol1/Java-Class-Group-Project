@@ -33,7 +33,7 @@ public class StaticStudentRepository implements StudentRepository{
 		for (Student oldStudent: students)
 			if (oldStudent.getUsername().equalsIgnoreCase(newStudent.getUsername())){
 				students.remove(oldStudent);
-				return students.add(newStudent);
+				break;
 			}
 			
 		//Save new student

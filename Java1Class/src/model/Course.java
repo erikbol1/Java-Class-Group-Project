@@ -6,11 +6,11 @@ import java.util.Calendar;
 public class Course implements Comparable <Course> {
 
 	//instance variables
-	private String courseId;
-	private Calendar startDate;
-	private Calendar endDate;
-	private String name;
-	private String description;
+	private final String courseId;
+	private final Calendar startDate;
+	private final Calendar endDate;
+	private final String name;
+	private final String description;
 	private int enrollmentLimit;
 	private int currentEnrollment;
 	
@@ -23,7 +23,7 @@ public class Course implements Comparable <Course> {
 			throw new IllegalArgumentException("Number of enrolled students can not exceed enrollment limit.");
 		if (numEnrolled < 0)
 			throw new IllegalArgumentException("Number of enrolled students can not be negative.");
-		if (limit > 0)
+		if (limit < 1)
 			throw new IllegalArgumentException("Class size must be greater than zero.");
 		
 		this.courseId = id;
@@ -77,22 +77,24 @@ public class Course implements Comparable <Course> {
 	/**
 	 * Increases the number of enrolled students by 1.
 	 */
-	public void incrementEnrollment(){
+	public boolean incrementEnrollment(){
 		//Ensure we don't exceed enrollment limit
 		if (currentEnrollment == enrollmentLimit)
-			return;
+			return false;
 		
 		currentEnrollment++;
+		return true;
 	}
 	/**
 	 * Decreases the number of enrolled students by 1.
 	 */
-	public void decrementEnrollment(){
+	public boolean decrementEnrollment(){
 		//Ensure we don't drop below zero students
 		if (currentEnrollment == 0)
-			return;
+			return false;
 		
 		currentEnrollment--;
+		return true;
 	}
 	@Override
 	public String toString() {

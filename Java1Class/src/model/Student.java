@@ -11,10 +11,10 @@ import java.util.List;
 public class Student {
 
 	//instance variables
-	private int id;
-	private Name name;
-	private String username;
-	private ContactInfo contactInfo;
+	private final int id;
+	private final Name name;
+	private final String username;
+	private final ContactInfo contactInfo;
 	private List<String> courses;
 
 	//Constructor to take inputs

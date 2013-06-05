@@ -16,7 +16,21 @@ public enum DataRepository implements CourseRepository, StudentRepository{
 		courseRepository = new StaticCourseRepository();
 		studentRepository = new StaticStudentRepository();//Used for convenience. This implementation does not complete requirements.
 	}
-	
+	//We might need to move this to a different spot.
+	public boolean enrollStudentInCourse(String username, Course course){
+		//Try to incrementEnrollment
+		if (course.incrementEnrollment()){
+			Student temp = getStudent(username);
+			//Try to add the course
+			if (temp.addCourse(course.getCourseId()))
+				//Try to save the student
+				return saveStudent(temp);
+			else
+				return false;
+		}
+		else
+			return false;
+	}
 	@Override
 	public Student getStudent(String username) {
 		return studentRepository.getStudent(username);
