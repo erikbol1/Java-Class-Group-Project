@@ -70,8 +70,10 @@ public class CreateAccountMenu implements Menu{
 	 */
 	@Override
 	public Menu parseInput(String input) {
-		if (success && AuthenticationService.INSTANCE.validate(username))
+		if (success && AuthenticationService.INSTANCE.validate(username)){
+			success = false;
 			return AuthenticatedMainMenu.getInstance(username);
+		}
 
 		//Ensure input is present
 		if (input == null || input.length() < 1){
@@ -156,6 +158,8 @@ public class CreateAccountMenu implements Menu{
 		//Save student
 		if (studentRepository.saveStudent(newStudent))
 			success = true;
+		//Reset our loop index
+		loopIndex = 0;
 	}
 
 }
