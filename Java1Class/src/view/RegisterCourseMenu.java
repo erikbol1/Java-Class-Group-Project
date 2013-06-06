@@ -2,20 +2,21 @@ package view;
 
 import java.util.List;
 
-import main.AuthenticationService;
 import model.Course;
+
 import persistance.Administration;
 import persistance.CourseRepository;
 import persistance.DataRepository;
 
 public class RegisterCourseMenu implements Menu{
-
+	//Singleton instance
 	private static final Menu registerCourseMenu = new RegisterCourseMenu();
+	//Method variables
 	private static String currentUser;
 	private CourseRepository courseRepository;
 	private Administration administration;
 
-	private RegisterCourseMenu(){
+	private RegisterCourseMenu(){//Initialize dependencies
 		courseRepository = DataRepository.INSTANCE;
 		administration = DataRepository.INSTANCE;
 	}
@@ -40,26 +41,25 @@ public class RegisterCourseMenu implements Menu{
 			System.out.println("Invalid input.");
 			return registerCourseMenu;
 		}
-		//Process user input to see if they want to go to the main menu
-		String selection = input.toUpperCase().substring(0, 1);
-
+		
 		List<Course> courses = courseRepository.getAvailableCourses();
 		//Search for course
 		for (Course course: courses)
 			if (input.equalsIgnoreCase(course.getCourseId())){
 				System.out.println(Decoration.SEPARATOR);
 				if (administration.enrollStudentInCourse(currentUser, course)){
-					selection = "M"; //Return user to appropriate main menu
 					System.out.println("Registration Successful."); //Display confirmation
+					return AuthenticatedMainMenu.getInstance(currentUser); //Return to main menu
 				}
-				else
+				else {
 					System.out.println("Registration unsuccessful.  You may already be enrolled in this course.");
+					return registerCourseMenu;
+				}
 			}
-		
-		//Return to main menu
-		if (selection.equals("M") && AuthenticationService.INSTANCE.validate(currentUser))
-			return AuthenticatedMainMenu.getInstance(currentUser);
 
+		if (input.equalsIgnoreCase("M"))
+			return AuthenticatedMainMenu.getInstance(currentUser); //Return to main menu
+			
 		//Input not found so it is invalid
 		System.out.println("Invalid input.");
 		return registerCourseMenu;

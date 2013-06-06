@@ -27,8 +27,10 @@ public class CreateAccountMenu implements Menu{
 	private String username = null;
 	private String email = null;
 	private long phoneNumber = 0L;
-	//Loop index
-	int loopIndex = 0;
+	//Loop related
+	private int loopIndex = -1;//So header only shows once
+	private boolean enableCreationLoop = true;//Prevents recursion due to confirmation dialog
+	private boolean exitConfirmation = false;//Flag to screen for y or n
 
 	private CreateAccountMenu(){
 		studentRepository = DataRepository.INSTANCE;
@@ -39,23 +41,26 @@ public class CreateAccountMenu implements Menu{
 	}
 	@Override
 	public void displayMenu() {
-		if (loopIndex == 0){
+		if (loopIndex == -1){
 			//Print Header
 			System.out.println(Decoration.DIVIDER);
 			System.out.println("Create Account");
 			System.out.println(Decoration.DIVIDER);
 			System.out.println("M = Main Menu");
 			System.out.println(Decoration.SEPARATOR);
+			loopIndex = 0; //Reset to valid index
 		}
 		//Handle details of create user loop
-		createUserLoop();
+		if (enableCreationLoop)
+			createUserLoop();
 
 		//Student saved
 		if (success){
 			System.out.println("You have successfully created a new account.");
 			System.out.println("Please use the username " + username + " to login in the future.");
 			System.out.println("Press enter to continue.");
-			loopIndex = 0;
+			loopIndex = -1;//So header only shows once
+			enableCreationLoop = true;
 		}
 		else{
 			System.out.println(Decoration.SEPARATOR);
@@ -83,15 +88,30 @@ public class CreateAccountMenu implements Menu{
 		}
 
 		//Check escape clause
-		String menuCheck = input.toUpperCase().substring(0, 1);
+		String menuCheck;
+		if (exitConfirmation)
+			menuCheck = input.toUpperCase().substring(0, 1);
+		else 
+			menuCheck = input.toUpperCase();
+		
 		switch (menuCheck){
-		case "M": return MainMenu.getInstance();
-		case "Y": 
-			loopIndex = 0;
+		case "M": 
+			enableCreationLoop = false;
+			exitConfirmation = true;
 			return MainMenu.getInstance();
+		case "Y": 
+			if (exitConfirmation){
+				enableCreationLoop = true;
+				exitConfirmation = false;
+				loopIndex = -1;//So header only shows once
+				return MainMenu.getInstance();
+				}
 		case "N":
-			createUserLoop();
-			return createAccountMenu;//Can not be null otherwise null pointer exception is thrown
+			if (exitConfirmation){
+				exitConfirmation = false;
+				createUserLoop();
+				return createAccountMenu;//Can not be null otherwise null pointer exception is thrown
+				}
 		}
 
 		//Switch to populate student attributes
@@ -106,7 +126,7 @@ public class CreateAccountMenu implements Menu{
 			loopIndex++;
 			return null;
 
-		case 2: 
+		case 2: //usernames must be unique
 			if (usernameAvailable(input)){
 				username = input;
 				loopIndex++;
