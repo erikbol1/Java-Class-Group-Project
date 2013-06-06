@@ -59,18 +59,24 @@ public class AvailableCoursesMenu implements Menu{
 
 		//Process user input to see if they want to go to the main menu
 		String selection = input.toUpperCase().substring(0, 1);
-		
-		List<Course> courses = courseRepository.getAvailableCourses();
-		//Search for course
-		for (Course course: courses)
-			if (input.equalsIgnoreCase(course.getCourseId()))
-				if (administration.enrollStudentInCourse(currentUser, course)){
-					selection = "M"; //Return user to appropriate main menu
-					System.out.println("Registration Successful."); //Display confirmation
+
+		//If user is authenticated try to enroll in course
+		if (AuthenticationService.INSTANCE.validate(currentUser)){
+			List<Course> courses = courseRepository.getAvailableCourses();
+			//Search for course
+			for (Course course: courses)
+				if (input.equalsIgnoreCase(course.getCourseId())){
+					if (administration.enrollStudentInCourse(currentUser, course)){
+						selection = "M"; //Return user to appropriate main menu
+						System.out.println("Registration Successful."); //Display confirmation
+					}
+					else
+						System.out.println("Registration unsuccessful.  You may already be enrolled in this course.");
 				}
-				
-		//Return to main menu
+		}
+		
 		if (selection.equals("M"))
+			//Return to appropriate main menu
 			if (AuthenticationService.INSTANCE.validate(currentUser)) 
 				return AuthenticatedMainMenu.getInstance(currentUser);
 			else

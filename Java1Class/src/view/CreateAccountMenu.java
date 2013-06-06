@@ -55,6 +55,7 @@ public class CreateAccountMenu implements Menu{
 			System.out.println("You have successfully created a new account.");
 			System.out.println("Please use the username " + username + " to login in the future.");
 			System.out.println("Press enter to continue.");
+			loopIndex = 0;
 		}
 		else{
 			System.out.println(Decoration.SEPARATOR);
@@ -90,7 +91,7 @@ public class CreateAccountMenu implements Menu{
 			return MainMenu.getInstance();
 		case "N":
 			createUserLoop();
-			return createAccountMenu;
+			return createAccountMenu;//Can not be null otherwise null pointer exception is thrown
 		}
 
 		//Switch to populate student attributes
@@ -106,8 +107,13 @@ public class CreateAccountMenu implements Menu{
 			return null;
 
 		case 2: 
-			username = input;
-			loopIndex++;
+			if (usernameAvailable(input)){
+				username = input;
+				loopIndex++;
+			}
+			else
+				System.out.println("Please choose another username.");
+			
 			return null;
 
 		case 3: 
@@ -133,7 +139,7 @@ public class CreateAccountMenu implements Menu{
 	}
 
 	private void createUserLoop(){
-		//Loop variables
+		//User prompts during loop.
 		List<String> prompts = new ArrayList<String>();
 		prompts.add("Enter your first name.");
 		prompts.add("Enter your last name.");
@@ -156,10 +162,12 @@ public class CreateAccountMenu implements Menu{
 		//Build newStudent
 		Student newStudent = new Student(studentRepository.nextStudentID(), new Name(firstName, lastName), username, new ContactInfo(email, phoneNumber));
 		//Save student
-		if (studentRepository.saveStudent(newStudent))
-			success = true;
-		//Reset our loop index
-		loopIndex = 0;
+		success = studentRepository.saveStudent(newStudent);
+	}
+	
+	private boolean usernameAvailable(String input){
+		
+		return studentRepository.getStudent(input) == null;
 	}
 
 }
