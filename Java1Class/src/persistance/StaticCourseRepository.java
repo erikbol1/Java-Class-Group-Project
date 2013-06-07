@@ -106,7 +106,7 @@ public class StaticCourseRepository implements CourseRepository{
 				"that organizations rely on for their day-to-day decision making processes. Basic data modeling techniques " +
 				"will be explored including capturing data requirements, analyzing data elements, identifying entities and " +
 				"attributes, and determining relationships between entities.",10,4);
-		Course course5 = new Course("MGMT481", juneFirst2013, augustThirtyFirst2013,"Fundamentals of " +
+		Course course5 = new Course("MGMT471", juneFirst2013, augustThirtyFirst2013,"Fundamentals of " +
 				"Business Analysis", "Whether you are new to the field of business analysis, or a supervisor of business " +
 				"analysts, this core class provides a basic understanding of the functions and business impact of " +
 				"the business analyst role. This course focuses on business analysis functions as they relate to " +
@@ -125,7 +125,7 @@ public class StaticCourseRepository implements CourseRepository{
 		Course course9 = new Course("EECS495", juneFifteenth2013, septemberFifteenth2013, "C Programming for DSP", 
 				"C programming is a preferred high-level programming language for digital signal processing (DSP) applications. " +
 				"Increase your knowledge on efficient DSP programming techniques and how to write DSP code in C.",4,2);
-		Course course10 = new Course("CS460", juneFifteenth2013, septemberFifteenth2013, "Human Resources and the Law", 
+		Course course10 = new Course("MGMT460", juneFifteenth2013, septemberFifteenth2013, "Human Resources and the Law", 
 				"This course covers the primary basic federal and state laws which come to bear on the practice of human resources management, " +
 				"and which govern employer-employee relations.",6,5);
 		
