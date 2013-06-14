@@ -81,14 +81,14 @@ public class Student {
 	public String toString() {
 		//Build output string
 		StringBuilder output = new StringBuilder();
-		output.append(id + "| ");
-		output.append(name.toString() + "| ");
-		output.append(username + "| ");
-		output.append(contactInfo.toString() + "| ");
+		output.append(id + ", ");
+		output.append(name.toString() + ", ");
+		output.append(username + ", ");
+		output.append(contactInfo.toString() + ", ");
 		//Add courses
 		for(String courseId: courses)
-			output.append(courseId + "| ");
-		//Create string without final "| "
+			output.append(courseId + ", ");
+		//Create string without final ", "
 		return output.substring(0, output.length() - 2);
 	}
 

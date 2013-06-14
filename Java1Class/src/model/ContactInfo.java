@@ -18,6 +18,6 @@ public class ContactInfo {
 	}
 	@Override
 	public String toString(){
-		return email + "| " + phoneNumber;
+		return email + ", " + phoneNumber;
 	}
 }

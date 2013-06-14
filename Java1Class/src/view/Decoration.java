@@ -2,7 +2,8 @@ package view;
 
 public enum Decoration {
 	DIVIDER("*********************************"),
-	SEPARATOR("--------------------------------");
+	SEPARATOR("--------------------------------"),
+	INDENT("    ");
 	
 	private String decoration;
 	

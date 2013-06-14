@@ -19,6 +19,7 @@ public class FileCoursePersistance implements CoursePersistance{
 
 	public FileCoursePersistance(String fileName){
 		this.fileName = fileName;
+		courses = pullFromFile(fileName);
 	}
 	@Override
 	public boolean updateCourse(Course updatedCourse) {
@@ -46,10 +47,7 @@ public class FileCoursePersistance implements CoursePersistance{
 
 	@Override
 	public List<Course> getCourses() {
-		if (courses != null)//Return cache if possible
-			return courses;
-		
-		return pullFromFile(fileName);
+		return courses;
 	}
 
 	@Override
@@ -119,9 +117,9 @@ public class FileCoursePersistance implements CoursePersistance{
 		PrintWriter printer;
 		try {
 			printer = new PrintWriter(output);
-			for (Course c: courses){
+			for (Course course: courses){
 				//Write to file
-				printer.println(c.toString());
+				printer.println(course.toString());
 			}
 			//Close file
 			printer.close();

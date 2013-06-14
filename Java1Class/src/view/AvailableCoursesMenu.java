@@ -36,7 +36,7 @@ public class AvailableCoursesMenu implements Menu{
 		for(Course course: courseRepository.getAvailableCourses()){
 			System.out.println("ID: " + course.getCourseId());
 			System.out.println("Name: " + course.getName());
-			System.out.println("Description: " + course.getSummary());
+			printSummary(course.getSummary());
 			System.out.println("Start Date: " + course.getStartDate());
 			System.out.println("End Date: " + course.getEndDate());
 			System.out.println("Seats Available: " + (course.getEnrollmentLimit() - course.getCurrentEnrollment()));
@@ -85,6 +85,38 @@ public class AvailableCoursesMenu implements Menu{
 		//Input not found so it is invalid
 		System.out.println("Invalid input.");
 		return availableCoursesMenu;
+	}
+	
+	private void printSummary(String summary){
+		String[] words = summary.split(" ");
+		int start = 0;
+		int wordCount = words.length;
+		int wordsPerLine = 12;
+		boolean done = false;
+		
+		do{
+			int limit;
+			if ((start + wordsPerLine) > wordCount)
+				limit = wordCount;
+			else
+				limit = start + wordsPerLine;
+			
+			StringBuilder sb = new StringBuilder();
+			if (start == 0)
+				sb.append("Description:");
+			else
+				sb.append(Decoration.INDENT);
+			
+			for (int index = start; index < limit; index++)
+				sb.append(" " + words[index]);
+			
+			System.out.println(sb.toString());
+			
+			if (limit == wordCount)
+				done = true;
+			else
+				start += wordsPerLine;
+		} while (!done);
 	}
 
 }

@@ -16,7 +16,7 @@ public enum DataRepository implements CourseRepository, StudentRepository, Regis
 	
 	DataRepository(){//Swap out new implementations here.
 		courseRepository = new AbstractCourseRepository(new FileCoursePersistance("courses.txt"));
-		studentRepository = new AbstractStudentRepository(new StaticStudentPersistance());//Used for convenience. This implementation does not complete requirements.
+		studentRepository = new AbstractStudentRepository(new FileStudentPersistance("students.txt"));
 		registrar = new Registrar(courseRepository, studentRepository);
 	}
 	@Override

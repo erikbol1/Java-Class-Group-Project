@@ -69,6 +69,7 @@ public class DropCourseMenu implements Menu{
 		if (student.getCourseList().contains(input)){
 			//If they are enrolled in course drop them and update course enrollment.
 			student.removeCourse(input);
+			studentRepository.saveStudent(student);
 			Course course = courseRepository.getCourse(input);
 			course.decrementEnrollment();
 			courseRepository.updateCourse(course);
