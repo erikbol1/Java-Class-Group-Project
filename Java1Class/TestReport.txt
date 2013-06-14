@@ -1,0 +1,31 @@
+***********************************
+*********** TEST REPORT ***********
+***********************************
+
+1. Authenticate to Register
+--Users must be authenticated to register for a course.
+--STATUS: Implementation Verified.
+
+2. Confirmation
+--Users receive confirmation after successfully registering for a course.
+--STATUS: Implementation Verified.
+
+3. Privacy
+--Users can not view other user's data (user name alone deemed sufficient).
+--STATUS: Implementation Verified.
+
+4. Full Course
+--Users can not register for a course that is at capacity.
+--STATUS: Implementation Verified.
+
+5. Registered to Drop
+--Users must be registered for a course in order to drop the course.
+--STATUS: Implementation Verified.
+
+6. Course Capacity
+--When users add and drop a course the current course enrollment level should reflect the change.
+--STATUS: Implementation Verified.
+
+7. Persist Data
+--Data must be persisted in a file.
+--STATUS: Implementation Verified.
