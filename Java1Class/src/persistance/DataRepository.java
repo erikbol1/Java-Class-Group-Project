@@ -7,40 +7,21 @@ import model.Course;
 import model.Student;
 
 
-public enum DataRepository implements CourseRepository, StudentRepository, Administration{
+public enum DataRepository implements CourseRepository, StudentRepository, RegisterCourse{
 
 	INSTANCE;//Single item enum to enforce Singleton.  Effective Java item 3.
+	private final RegisterCourse registrar;
 	private final CourseRepository courseRepository; //Reference by interface
 	private final StudentRepository studentRepository; //As above
 	
 	DataRepository(){//Swap out new implementations here.
-		courseRepository = new StaticCourseRepository();
-		studentRepository = new StaticStudentRepository();//Used for convenience. This implementation does not complete requirements.
+		courseRepository = new AbstractCourseRepository(new FileCoursePersistance("courses.txt"));
+		studentRepository = new AbstractStudentRepository(new StaticStudentPersistance());//Used for convenience. This implementation does not complete requirements.
+		registrar = new Registrar(courseRepository, studentRepository);
 	}
-	@Override//We might want to move this to a different spot.
+	@Override
 	public boolean enrollStudentInCourse(String username, Course course){
-		//Protect against nulls
-		if (username == null || course == null)
-			return false;
-		
-		//Try to incrementEnrollment
-		if (course.getCurrentEnrollment() < course.getEnrollmentLimit()){
-			Student student = getStudent(username);
-			//Try to add the course
-			if (student.addCourse(course.getCourseId())){
-				course.incrementEnrollment();
-				if (saveStudent(student))
-					return true;
-				else {
-					course.decrementEnrollment();
-					return false;
-				}
-			}
-			else//Can not add course
-				return false;
-		}
-		else//Max enrollment reached
-			return false;
+		return registrar.enrollStudentInCourse(username, course);
 	}
 	@Override
 	public Student getStudent(String username) {

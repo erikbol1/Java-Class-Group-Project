@@ -2,7 +2,7 @@ package persistance;
 
 import model.Course;
 
-public interface Administration {
+public interface RegisterCourse {
 
 	public boolean enrollStudentInCourse(String username, Course course);
 }

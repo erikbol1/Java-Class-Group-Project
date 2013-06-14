@@ -2,7 +2,7 @@ package view;
 
 import java.util.List;
 
-import persistance.Administration;
+import persistance.RegisterCourse;
 import persistance.CourseRepository;
 import persistance.DataRepository;
 
@@ -14,7 +14,7 @@ public class AvailableCoursesMenu implements Menu{
 	private static final Menu availableCoursesMenu = new AvailableCoursesMenu();
 	private static String currentUser;
 	private static CourseRepository courseRepository;
-	private static Administration administration;
+	private static RegisterCourse administration;
 	
 	private AvailableCoursesMenu(){
 		courseRepository = DataRepository.INSTANCE;

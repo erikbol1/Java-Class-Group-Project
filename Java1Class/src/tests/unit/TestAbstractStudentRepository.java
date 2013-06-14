@@ -9,23 +9,24 @@ import model.Student;
 import org.junit.Before;
 import org.junit.Test;
 
-import persistance.StaticStudentRepository;
+import persistance.AbstractStudentRepository;
+import persistance.StaticStudentPersistance;
 
 /**
  * These tests are brittle as we are testing against the internal hard coded data
  * @author Erik B
  */
-public class TestStaticStudentRepository {
+public class TestAbstractStudentRepository {
 	
-	private StaticStudentRepository sut;
+	private AbstractStudentRepository sut;
 	
 	@Before
 	public void setUp() throws Exception {
-		sut = new StaticStudentRepository();
+		sut = new AbstractStudentRepository(new StaticStudentPersistance());
 	}
 
 	//***************************************************************
-	// Tests for StaticStudentRepository.getStudent(String courseId)
+	// Tests for AbstractStudentRepository.getStudent(String courseId)
 	//***************************************************************
 	@Test
 	public void testGetNullStudent() {
@@ -40,7 +41,7 @@ public class TestStaticStudentRepository {
 		assertNull(sut.getStudent("slkdfsldj"));
 	}
 	//***************************************************************
-	// Tests for StaticStudentRepository.saveStudent(Student student)
+	// Tests for AbstractStudentRepository.saveStudent(Student student)
 	//***************************************************************
 	@Test
 	public void testSaveNullStudent() {
@@ -55,8 +56,6 @@ public class TestStaticStudentRepository {
 	@Test
 	public void testSaveExistingStudent(){
 		assertTrue(sut.saveStudent(sut.getStudent("janewu")));
-	}
-	
-	
+	}	
 
 }

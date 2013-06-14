@@ -4,7 +4,7 @@ import java.util.List;
 
 import model.Course;
 
-import persistance.Administration;
+import persistance.RegisterCourse;
 import persistance.CourseRepository;
 import persistance.DataRepository;
 
@@ -14,7 +14,7 @@ public class RegisterCourseMenu implements Menu{
 	//Method variables
 	private static String currentUser;
 	private CourseRepository courseRepository;
-	private Administration administration;
+	private RegisterCourse administration;
 
 	private RegisterCourseMenu(){//Initialize dependencies
 		courseRepository = DataRepository.INSTANCE;

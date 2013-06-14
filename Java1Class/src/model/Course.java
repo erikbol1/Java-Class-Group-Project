@@ -98,7 +98,7 @@ public class Course implements Comparable <Course> {
 	}
 	@Override
 	public String toString() {
-		return courseId + "| " + getStartDate() + "| " + getEndDate() + "| " + name + "| " + description + "| " + enrollmentLimit + "| " + currentEnrollment;
+		return courseId + ", " + getStartDate() + ", " + getEndDate() + ", " + name + ", " + description + ", " + enrollmentLimit + ", " + currentEnrollment;
 	}
 	/**
 	 * Comparison based on course Id as course Id is typically arranged by category.
