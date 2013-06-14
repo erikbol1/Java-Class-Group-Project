@@ -1,4 +1,4 @@
-package persistance;
+package persistence;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,12 +12,12 @@ import java.util.Scanner;
 
 import model.Course;
 
-public class FileCoursePersistance implements CoursePersistance{
+public class FileCoursePersistence implements CoursePersistence{
 
 	private String fileName;
 	private List<Course> courses;
 
-	public FileCoursePersistance(String fileName){
+	public FileCoursePersistence(String fileName){
 		this.fileName = fileName;
 		courses = pullFromFile(fileName);
 	}

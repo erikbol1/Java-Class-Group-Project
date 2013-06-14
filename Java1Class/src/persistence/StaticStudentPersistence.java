@@ -1,4 +1,4 @@
-package persistance;
+package persistence;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,11 +7,11 @@ import model.ContactInfo;
 import model.Name;
 import model.Student;
 
-public class StaticStudentPersistance implements StudentPersistance{
+public class StaticStudentPersistence implements StudentPersistence{
 
 	private List<Student> students;
 
-	public StaticStudentPersistance(){
+	public StaticStudentPersistence(){
 		students = getStudents();
 	}
 

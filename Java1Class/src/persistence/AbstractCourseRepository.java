@@ -1,4 +1,4 @@
-package persistance;
+package persistence;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,9 +9,9 @@ import model.Course;
 public class AbstractCourseRepository implements CourseRepository{
 
 	private List<Course> courses;
-	private CoursePersistance coursePersistance;
+	private CoursePersistence coursePersistance;
 	
-	public AbstractCourseRepository(CoursePersistance coursePersistance){
+	public AbstractCourseRepository(CoursePersistence coursePersistance){
 		this.coursePersistance = coursePersistance;
 		courses = coursePersistance.getCourses();
 	}

@@ -6,13 +6,13 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.AuthenticationService;
 import model.ContactInfo;
 import model.Name;
 import model.Student;
 
-import persistance.DataRepository;
-import persistance.StudentRepository;
+import persistence.AuthenticationService;
+import persistence.DataRepository;
+import persistence.StudentRepository;
 
 public class CreateAccountMenu implements Menu{
 

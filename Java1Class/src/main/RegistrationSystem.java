@@ -9,9 +9,8 @@ import view.Menu;
 
 
 /**
- * @author Jennifer Burmester
  * @author Erik Bollinger
- * @author Bac Bui
+ * @author Jennifer Burmester
  */
 public class RegistrationSystem {
 

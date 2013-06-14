@@ -8,7 +8,7 @@ import model.Name;
 import model.Student;
 
 /**
- * This is mainly just test code to make sure that the StudentUser class is working.
+ * This is mainly just test code to make sure that the Student class is working.
  */
 public class AddStudent {
 

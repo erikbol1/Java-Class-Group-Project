@@ -2,11 +2,11 @@ package view;
 
 import java.util.List;
 
-import persistance.RegisterCourse;
-import persistance.CourseRepository;
-import persistance.DataRepository;
+import persistence.AuthenticationService;
+import persistence.CourseRepository;
+import persistence.DataRepository;
+import persistence.RegisterCourse;
 
-import main.AuthenticationService;
 import model.Course;
 
 public class AvailableCoursesMenu implements Menu{
@@ -88,34 +88,34 @@ public class AvailableCoursesMenu implements Menu{
 	}
 	
 	private void printSummary(String summary){
-		String[] words = summary.split(" ");
-		int start = 0;
-		int wordCount = words.length;
-		int wordsPerLine = 12;
-		boolean done = false;
+		String[] words = summary.split(" ");//Break it up into words
+		int start = 0;//index of first word to pull
+		int wordCount = words.length;//Number of words
+		int wordsPerLine = 12;//Print this number of words per line
+		boolean done = false;//Flag to break loop
 		
 		do{
-			int limit;
+			int limit;//Limit for the for loop
 			if ((start + wordsPerLine) > wordCount)
-				limit = wordCount;
+				limit = wordCount;//last line < wordsPerLine
 			else
 				limit = start + wordsPerLine;
 			
 			StringBuilder sb = new StringBuilder();
 			if (start == 0)
-				sb.append("Description:");
+				sb.append("Description:");//First line
 			else
-				sb.append(Decoration.INDENT);
+				sb.append(Decoration.INDENT);//Subsequent lines
 			
 			for (int index = start; index < limit; index++)
-				sb.append(" " + words[index]);
+				sb.append(" " + words[index]);//Build the line
 			
-			System.out.println(sb.toString());
+			System.out.println(sb.toString());//Print the line
 			
 			if (limit == wordCount)
-				done = true;
+				done = true;//We're done
 			else
-				start += wordsPerLine;
+				start += wordsPerLine;//increment starting point
 		} while (!done);
 	}
 

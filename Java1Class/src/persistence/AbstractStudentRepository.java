@@ -1,4 +1,4 @@
-package persistance;
+package persistence;
 
 import java.util.List;
 
@@ -7,9 +7,9 @@ import model.Student;
 public class AbstractStudentRepository implements StudentRepository{
 
 	private List<Student> students;
-	private StudentPersistance studentPersistance;
+	private StudentPersistence studentPersistance;
 	
-	public AbstractStudentRepository(StudentPersistance studentPersistance){
+	public AbstractStudentRepository(StudentPersistence studentPersistance){
 		this.studentPersistance = studentPersistance;
 		students = studentPersistance.getStudents();
 	}

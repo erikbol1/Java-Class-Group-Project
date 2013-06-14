@@ -1,4 +1,4 @@
-package persistance;
+package persistence;
 
 import java.util.List;
 
@@ -15,8 +15,8 @@ public enum DataRepository implements CourseRepository, StudentRepository, Regis
 	private final StudentRepository studentRepository; //As above
 	
 	DataRepository(){//Swap out new implementations here.
-		courseRepository = new AbstractCourseRepository(new FileCoursePersistance("courses.txt"));
-		studentRepository = new AbstractStudentRepository(new FileStudentPersistance("students.txt"));
+		courseRepository = new AbstractCourseRepository(new FileCoursePersistence("courses.txt"));
+		studentRepository = new AbstractStudentRepository(new FileStudentPersistence("students.txt"));
 		registrar = new Registrar(courseRepository, studentRepository);
 	}
 	@Override

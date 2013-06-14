@@ -1,4 +1,4 @@
-package persistance;
+package persistence;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,12 +11,12 @@ import model.ContactInfo;
 import model.Name;
 import model.Student;
 
-public class FileStudentPersistance implements StudentPersistance{
+public class FileStudentPersistence implements StudentPersistence{
 
 	List<Student> students;
 	String fileName;
 
-	public FileStudentPersistance(String fileName){
+	public FileStudentPersistence(String fileName){
 		this.fileName = fileName;
 		students = pullFromFile(fileName);
 	}

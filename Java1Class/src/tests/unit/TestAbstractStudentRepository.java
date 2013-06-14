@@ -9,8 +9,8 @@ import model.Student;
 import org.junit.Before;
 import org.junit.Test;
 
-import persistance.AbstractStudentRepository;
-import persistance.StaticStudentPersistance;
+import persistence.AbstractStudentRepository;
+import persistence.StaticStudentPersistence;
 
 /**
  * These tests are brittle as we are testing against the internal hard coded data
@@ -22,7 +22,7 @@ public class TestAbstractStudentRepository {
 	
 	@Before
 	public void setUp() throws Exception {
-		sut = new AbstractStudentRepository(new StaticStudentPersistance());
+		sut = new AbstractStudentRepository(new StaticStudentPersistence());
 	}
 
 	//***************************************************************

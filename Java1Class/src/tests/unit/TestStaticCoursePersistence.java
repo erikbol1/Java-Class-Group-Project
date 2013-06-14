@@ -10,17 +10,17 @@ import model.Course;
 import org.junit.Before;
 import org.junit.Test;
 
-import persistance.CoursePersistance;
-import persistance.StaticCoursePersistance;
+import persistence.CoursePersistence;
+import persistence.StaticCoursePersistence;
 
-public class TestStaticCoursePersistance {
+public class TestStaticCoursePersistence {
 
-	CoursePersistance sut;
+	CoursePersistence sut;
 	private Calendar calendar;
 
 	@Before
 	public void setUp() throws Exception {
-		sut = new StaticCoursePersistance();
+		sut = new StaticCoursePersistence();
 		calendar = new GregorianCalendar();
 	}
 

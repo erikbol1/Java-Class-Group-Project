@@ -1,10 +1,10 @@
 package view;
 
-import persistance.CourseRepository;
-import persistance.DataRepository;
-import persistance.StudentRepository;
+import persistence.AuthenticationService;
+import persistence.CourseRepository;
+import persistence.DataRepository;
+import persistence.StudentRepository;
 
-import main.AuthenticationService;
 import model.Course;
 import model.Student;
 
@@ -57,11 +57,6 @@ public class DropCourseMenu implements Menu{
 		System.out.println("Invalid input.");
 		return dropCourseMenu;
 	}
-	/**
-	 * 
-	 * @param input - from user
-	 * @return "M" if 
-	 */
 	private boolean dropCourse(String input){
 		
 		//Get the student

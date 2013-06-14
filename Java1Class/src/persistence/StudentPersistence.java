@@ -1,10 +1,10 @@
-package persistance;
+package persistence;
 
 import java.util.List;
 
 import model.Student;
 
-public interface StudentPersistance {
+public interface StudentPersistence {
 	
 	public List<Student> getStudents();
 	public boolean persistStudent(Student student);

@@ -1,10 +1,10 @@
-package persistance;
+package persistence;
 
 import java.util.List;
 
 import model.Course;
 
-public interface CoursePersistance {
+public interface CoursePersistence {
 
 	public boolean updateCourse(Course course);
 	public List<Course> getCourses();

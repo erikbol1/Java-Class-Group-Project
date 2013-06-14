@@ -4,9 +4,9 @@ import java.util.List;
 
 import model.Course;
 
-import persistance.RegisterCourse;
-import persistance.CourseRepository;
-import persistance.DataRepository;
+import persistence.CourseRepository;
+import persistence.DataRepository;
+import persistence.RegisterCourse;
 
 public class RegisterCourseMenu implements Menu{
 	//Singleton instance

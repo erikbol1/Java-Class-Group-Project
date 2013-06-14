@@ -1,4 +1,4 @@
-package persistance;
+package persistence;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -8,10 +8,10 @@ import java.util.List;
 
 import model.Course;
 
-public class StaticCoursePersistance implements CoursePersistance{
+public class StaticCoursePersistence implements CoursePersistence{
 	private List<Course> courses;
 	
-	public StaticCoursePersistance(){
+	public StaticCoursePersistence(){
 		courses = getCourses();
 	}
 

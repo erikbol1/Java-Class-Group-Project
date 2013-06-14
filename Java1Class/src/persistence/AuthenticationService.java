@@ -1,7 +1,5 @@
-package main;
+package persistence;
 
-import persistance.DataRepository;
-import persistance.StudentRepository;
 
 public enum AuthenticationService {
 	INSTANCE;

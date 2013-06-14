@@ -9,16 +9,16 @@ import model.Student;
 import org.junit.Before;
 import org.junit.Test;
 
-import persistance.StaticStudentPersistance;
-import persistance.StudentPersistance;
+import persistence.StaticStudentPersistence;
+import persistence.StudentPersistence;
 
-public class TestStaticStudentPersistance {
+public class TestStaticStudentPersistence {
 	
-	private StudentPersistance sut;
+	private StudentPersistence sut;
 
 	@Before
 	public void setUp() throws Exception {
-		sut = new StaticStudentPersistance();
+		sut = new StaticStudentPersistence();
 	}
 
 	//***************************************************************

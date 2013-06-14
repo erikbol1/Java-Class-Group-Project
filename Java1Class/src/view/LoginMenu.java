@@ -1,6 +1,6 @@
 package view;
 
-import main.AuthenticationService;
+import persistence.AuthenticationService;
 
 public class LoginMenu implements Menu{
 

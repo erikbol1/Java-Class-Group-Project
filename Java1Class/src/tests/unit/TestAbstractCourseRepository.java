@@ -10,9 +10,9 @@ import model.Course;
 import org.junit.Before;
 import org.junit.Test;
 
-import persistance.AbstractCourseRepository;
-import persistance.CourseRepository;
-import persistance.StaticCoursePersistance;
+import persistence.AbstractCourseRepository;
+import persistence.CourseRepository;
+import persistence.StaticCoursePersistence;
 
 /**
  * Tests are brittle because we are testing against the internal hard coded data
@@ -26,7 +26,7 @@ public class TestAbstractCourseRepository {
 	
 	@Before
 	public void setUp() throws Exception {
-		sut = new AbstractCourseRepository(new StaticCoursePersistance());
+		sut = new AbstractCourseRepository(new StaticCoursePersistence());
 		calendar = new GregorianCalendar();
 	}
 

@@ -1,9 +1,9 @@
 package view;
 
 import model.Course;
-import persistance.CourseRepository;
-import persistance.DataRepository;
-import persistance.StudentRepository;
+import persistence.CourseRepository;
+import persistence.DataRepository;
+import persistence.StudentRepository;
 
 public class ManageAccountMenu implements Menu{
 
