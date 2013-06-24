@@ -23,15 +23,18 @@ public class TestMainMenu {
 	//********************************************************************
 	@Test
 	public void testNullInput() {
-		assertSame(sut, sut.parseInput(null));
+		sut.parseInput(null);
+		assertTrue(sut.moreInputNeeded());
 	}
 	@Test
 	public void testInvalidInput(){
-		assertSame(sut, sut.parseInput("|"));
+		sut.parseInput("|");
+		assertTrue(sut.moreInputNeeded());
 	}
 	@Test
 	public void testValidInputV(){
-		assertSame(AvailableCoursesMenu.getInstance(null), sut.parseInput("v"));
+		sut.parseInput("v");
+		assertSame(AvailableCoursesMenu.getInstance(null), sut.getNextMenu());
 	}
 
 }

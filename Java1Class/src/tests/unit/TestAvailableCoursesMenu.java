@@ -23,20 +23,24 @@ public class TestAvailableCoursesMenu {
 	//********************************************************************
 	@Test
 	public void testParseNullInput() {
-		assertSame(sut, sut.parseInput(null));
+		sut.parseInput(null);
+		assertTrue(sut.moreInputNeeded());
 	}
 	@Test
 	public void testInvalidInput(){
-		assertSame(sut, sut.parseInput("|"));
+		sut.parseInput("|");
+		assertTrue(sut.moreInputNeeded());
 	}
 	@Test
 	public void testValidInputNotAuthenticated(){
-		assertEquals(MainMenu.getInstance(), sut.parseInput("m"));
+		sut.parseInput("m");
+		assertEquals(MainMenu.getInstance(), sut.getNextMenu());
 	}
 	@Test
 	public void testValidInputAuthenticated(){
 		sut = AvailableCoursesMenu.getInstance("janewu");
-		assertEquals(AuthenticatedMainMenu.getInstance("janewu"), sut.parseInput("m"));
+		sut.parseInput("m");
+		assertEquals(AuthenticatedMainMenu.getInstance("janewu"), sut.getNextMenu());
 	}
 
 }

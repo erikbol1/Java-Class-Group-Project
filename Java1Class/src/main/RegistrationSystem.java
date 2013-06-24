@@ -23,13 +23,18 @@ public class RegistrationSystem {
 		while (true){
 			//Display current menu
 			menu.displayMenu();
-			try {
-				//Process user input.
-				menu = menu.parseInput(new BufferedReader(new InputStreamReader(System.in)).readLine());
-			} catch (IOException e) {
-				//e.printStackTrace(); //Uncomment if needed for debugging purposes
-				System.out.println("Invalid Input.");
+			while (menu.moreInputNeeded()){
+				menu.displayPrompt();
+				try {
+					//Process user input.
+					menu.parseInput(new BufferedReader(new InputStreamReader(System.in)).readLine());
+				} catch (IOException e) {
+					//e.printStackTrace(); //Uncomment if needed for debugging purposes
+					System.out.println("Invalid Input.");
+				}
 			}
+			
+			menu = menu.getNextMenu();
 		}
 		
 	}

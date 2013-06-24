@@ -2,7 +2,7 @@ package view;
 
 import persistence.AuthenticationService;
 
-public class LoginMenu implements Menu{
+public class LoginMenu extends Menu{
 
 	private static final Menu loginMenu = new LoginMenu();
 
@@ -19,27 +19,36 @@ public class LoginMenu implements Menu{
 		System.out.println("M = Main Menu");
 		System.out.println(Decoration.SEPARATOR);
 		System.out.println("Enter your username to login.");
+
+		super.displayMenu();
 	}
 
 	@Override
-	public Menu parseInput(String input) {
+	public void parseInput(String input) {
 		//Ensure input is present
-		if (input == null || input.length() < 1){
-			System.out.println("Invalid input.");
-			return loginMenu;
+		if (nullOrEmpty(input))
+			return;
+		
+		//Make sure username is consistent
+		input = input.toUpperCase();
+		
+		//Process user input
+		if (input.equals("M")){ //Return to main menu
+			setInputNeeded(false);
+			setNextMenu(MainMenu.getInstance());
+			return;
 		}
 
-		//Process user input
-		String userInput = input.toUpperCase().substring(0, 1);		
-		if (userInput.equals("M")) //Return to main menu
-			return MainMenu.getInstance();
+		//If valid go to authenticated main menu
+		if (AuthenticationService.INSTANCE.validate(input)){
+			setInputNeeded(false);
+			setNextMenu(AuthenticatedMainMenu.getInstance(input));
+			return;
+		}
 
-		//If valid go to authenicated main menu
-		if (AuthenticationService.INSTANCE.validate(input))
-			return AuthenticatedMainMenu.getInstance(input);
-
-		System.out.println("Invalid input.");
-		return loginMenu;
+		//Input not found in switch statement so it is invalid
+		setPrompt(Prompt.INVALID_INPUT);
+		setInputNeeded(true);
 
 	}
 

@@ -3,9 +3,10 @@ package persistence;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 import model.ContactInfo;
 import model.Name;
@@ -13,8 +14,8 @@ import model.Student;
 
 public class FileStudentPersistence implements StudentPersistence{
 
-	List<Student> students;
-	String fileName;
+	private Set<Student> students;
+	private String fileName;
 
 	public FileStudentPersistence(String fileName){
 		this.fileName = fileName;
@@ -22,20 +23,29 @@ public class FileStudentPersistence implements StudentPersistence{
 	}
 
 	@Override
-	public List<Student> getStudents() {
-		return students;
+	public Set<Student> getStudents() {
+		return Collections.unmodifiableSet(students);
 	}
 
 	@Override
-	public boolean persistStudent(Student student) {
-		if (student == null)
+	public boolean persistStudent(Student newStudent) {
+		if (newStudent == null)
 			return false;
 
-		return persistInFile(students, fileName);
+		students = pullFromFile(fileName);
+		for (Student oldStudent: students)
+			if (oldStudent.getUsername().equalsIgnoreCase(newStudent.getUsername())){
+				students.remove(oldStudent);
+				break;
+			}
+
+		students.add(newStudent);
+		
+		return (persistInFile(students, fileName) == students.size()) ? true: false;
 	}
 
-	private List<Student> pullFromFile(String file){
-		List<Student> output = new ArrayList<Student>();
+	private Set<Student> pullFromFile(String file){
+		Set<Student> output = new HashSet<Student>();
 		File input = new File(file);
 		Scanner scanner;
 
@@ -77,14 +87,16 @@ public class FileStudentPersistence implements StudentPersistence{
 		return output;
 	}
 
-	private boolean persistInFile(List<Student> courseList, String file){
+	private int persistInFile(Set<Student> studentList, String file){
 		File output = new File(file);
 		PrintWriter printer;
+		int count = 0;
 		try {
 			printer = new PrintWriter(output);
-			for (Student student: students){
+			for (Student student: studentList){
 				//Write to file
 				printer.println(student.toString());
+				count++;
 			}
 			//Close file
 			printer.close();
@@ -92,6 +104,6 @@ public class FileStudentPersistence implements StudentPersistence{
 			e.printStackTrace();
 		}
 
-		return true;
+		return count;
 	}
 }

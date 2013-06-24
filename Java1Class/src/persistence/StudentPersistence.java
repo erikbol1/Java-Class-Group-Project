@@ -1,12 +1,12 @@
 package persistence;
 
-import java.util.List;
+import java.util.Set;
 
 import model.Student;
 
 public interface StudentPersistence {
 	
-	public List<Student> getStudents();
+	public Set<Student> getStudents();
 	public boolean persistStudent(Student student);
 
 }

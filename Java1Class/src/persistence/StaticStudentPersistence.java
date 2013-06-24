@@ -1,7 +1,7 @@
 package persistence;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import model.ContactInfo;
 import model.Name;
@@ -9,19 +9,19 @@ import model.Student;
 
 public class StaticStudentPersistence implements StudentPersistence{
 
-	private List<Student> students;
+	private Set<Student> students;
 
 	public StaticStudentPersistence(){
 		students = getStudents();
 	}
 
 	@Override
-	public List<Student> getStudents() {
+	public Set<Student> getStudents() {
 
 		if (students != null)
 			return students;
 
-		List<Student> output = new ArrayList<Student>();
+		Set<Student> output = new HashSet<Student>();
 
 		//Create students
 		Student student1 = new Student(123098, new Name("Jane", "Wu"), "janewu", new ContactInfo("janewu@uci.edu", 5555555551L));

@@ -45,7 +45,7 @@ public class TestStaticStudentPersistence {
 	}
 	@Test
 	public void testSaveExistingStudent(){
-		Student temp = sut.getStudents().get(0);
+		Student temp = (Student) sut.getStudents().toArray()[0];
 		assertTrue(sut.persistStudent(temp));
 		assertTrue(sut.getStudents().contains(temp));
 	}

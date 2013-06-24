@@ -22,15 +22,18 @@ public class TestLoginMenu {
 	//********************************************************************
 	@Test
 	public void testNullInput() {
-		assertSame(sut, sut.parseInput(null));
+		sut.parseInput(null);
+		assertTrue(sut.moreInputNeeded());
 	}
 	@Test
 	public void testInvalidInput(){
-		assertSame(sut, sut.parseInput("|"));
+		sut.parseInput("|");
+		assertTrue(sut.moreInputNeeded());
 	}
 	@Test
-	public void testValidInput(){//Test relies on StaticStudentRepository
-		assertSame(AuthenticatedMainMenu.getInstance("janewu"), sut.parseInput("janewu"));
+	public void testValidInput(){//Test relies on StudentRepository containing this username
+		sut.parseInput("janewu");
+		assertSame(AuthenticatedMainMenu.getInstance("janewu"), sut.getNextMenu());
 	}
 
 }

@@ -5,7 +5,7 @@ import persistence.CourseRepository;
 import persistence.DataRepository;
 import persistence.StudentRepository;
 
-public class ManageAccountMenu implements Menu{
+public class ManageAccountMenu extends Menu{
 
 	private static final Menu manageAccountMenu = new ManageAccountMenu();
 	private static String currentUser;
@@ -26,22 +26,25 @@ public class ManageAccountMenu implements Menu{
 		System.out.println("Manage Account");
 		System.out.println(Decoration.DIVIDER);
 		System.out.println("M = Main Menu");
-		if (studentRepository.getStudent(currentUser).getCourseList().isEmpty())
+		if (studentRepository.getStudent(currentUser).getCourseList().isEmpty()){
 			System.out.println("You are not currently registered for any courses.");
+			setInputNeeded(false);
+			setNextMenu(AuthenticatedMainMenu.getInstance(currentUser));
+		}
 		else {
 			System.out.println("D = Drop Course");
 			System.out.println("V = View Schedule");
+			
+			super.displayMenu();
 		}
 		
 	}
 
 	@Override
-	public Menu parseInput(String input) {		
+	public void parseInput(String input) {		
 		//Ensure input is present
-		if (input == null || input.length() < 1){
-			System.out.println("Invalid input.");
-			return manageAccountMenu;
-		}
+		if (nullOrEmpty(input))
+			return;
 
 		//Process user input
 		String userInput = input.toUpperCase().substring(0, 1);
@@ -49,23 +52,23 @@ public class ManageAccountMenu implements Menu{
 		//Switch on input
 		switch (userInput){
 		case "D": 
-			if (studentRepository.getStudent(currentUser).getCourseList().isEmpty())
-				break;
-			else
-				return DropCourseMenu.getInstance(currentUser);
+			setInputNeeded(false);
+			setNextMenu(DropCourseMenu.getInstance(currentUser));
+			return;
 		case "V": 
-			if (studentRepository.getStudent(currentUser).getCourseList().isEmpty())
-				break;
-			else {
-				displaySchedule();
-				return manageAccountMenu;
-			}
-		case "M": return AuthenticatedMainMenu.getInstance(currentUser);
+			displaySchedule();
+			setInputNeeded(false);
+			setNextMenu(ManageAccountMenu.getInstance(currentUser));
+			return;
+		case "M": 
+			setInputNeeded(false);
+			setNextMenu(AuthenticatedMainMenu.getInstance(currentUser));
+			return;
 		}
 
 		//Input not found in switch statement so it is invalid
-		System.out.println("Invalid input.");
-		return manageAccountMenu;
+		setPrompt(Prompt.INVALID_INPUT);
+		setInputNeeded(true);
 	}
 
 	private void displaySchedule(){

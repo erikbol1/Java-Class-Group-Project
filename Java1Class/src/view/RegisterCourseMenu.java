@@ -8,7 +8,7 @@ import persistence.CourseRepository;
 import persistence.DataRepository;
 import persistence.RegisterCourse;
 
-public class RegisterCourseMenu implements Menu{
+public class RegisterCourseMenu extends Menu{
 	//Singleton instance
 	private static final Menu registerCourseMenu = new RegisterCourseMenu();
 	//Method variables
@@ -31,16 +31,16 @@ public class RegisterCourseMenu implements Menu{
 		System.out.println("Register for Course");
 		System.out.println(Decoration.DIVIDER);
 		System.out.println("M = Main Menu");
-		System.out.println("Enter course ID.");		
+		System.out.println("Enter course ID.");	
+		
+		super.displayMenu();	
 	}
 
 	@Override
-	public Menu parseInput(String input) {
+	public void parseInput(String input) {
 		//Ensure input is present
-		if (input == null || input.length() < 1){
-			System.out.println("Invalid input.");
-			return registerCourseMenu;
-		}
+		if (nullOrEmpty(input))
+			return;
 		
 		List<Course> courses = courseRepository.getAvailableCourses();
 		//Search for course
@@ -48,21 +48,27 @@ public class RegisterCourseMenu implements Menu{
 			if (input.equalsIgnoreCase(course.getCourseId())){
 				System.out.println(Decoration.SEPARATOR);
 				if (administration.enrollStudentInCourse(currentUser, course)){
-					System.out.println("Registration Successful."); //Display confirmation
-					return AuthenticatedMainMenu.getInstance(currentUser); //Return to main menu
+					System.out.println(Prompt.REGISTRATION_SUCCESS); //Display confirmation
+					setInputNeeded(false);
+					setNextMenu(AuthenticatedMainMenu.getInstance(currentUser)); //Return to main menu
+					return;
 				}
 				else {
-					System.out.println("Registration unsuccessful.  You may already be enrolled in this course.");
-					return registerCourseMenu;
+					setInputNeeded(true);
+					setPrompt(Prompt.REGISTRATION_FAIL);
+					return;
 				}
 			}
 
-		if (input.equalsIgnoreCase("M"))
-			return AuthenticatedMainMenu.getInstance(currentUser); //Return to main menu
-			
+		if (input.equalsIgnoreCase("M")){
+			setInputNeeded(false);
+			setNextMenu(AuthenticatedMainMenu.getInstance(currentUser)); //Return to main menu
+			return;
+		}
+		
 		//Input not found so it is invalid
-		System.out.println("Invalid input.");
-		return registerCourseMenu;
+		setPrompt(Prompt.INVALID_INPUT);
+		setInputNeeded(true);
 	}
 
 }

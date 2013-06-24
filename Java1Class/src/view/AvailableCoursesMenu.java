@@ -9,7 +9,7 @@ import persistence.RegisterCourse;
 
 import model.Course;
 
-public class AvailableCoursesMenu implements Menu{
+public class AvailableCoursesMenu extends Menu{
 
 	private static final Menu availableCoursesMenu = new AvailableCoursesMenu();
 	private static String currentUser;
@@ -47,18 +47,15 @@ public class AvailableCoursesMenu implements Menu{
 			System.out.println("Enter course ID to enroll.");
 		//Instructions for all users
 		System.out.println("M = Main Menu");
+		
+		super.displayMenu();
 	}
 
 	@Override
-	public Menu parseInput(String input) {
+	public void parseInput(String input) {
 		//Ensure input is present
-		if (input == null || input.length() < 1){
-			System.out.println("Invalid input.");
-			return availableCoursesMenu;
-		}
-
-		//Process user input to see if they want to go to the main menu
-		String selection = input.toUpperCase().substring(0, 1);
+		if (nullOrEmpty(input))
+			return;
 
 		//If user is authenticated try to enroll in course
 		if (AuthenticationService.INSTANCE.validate(currentUser)){
@@ -67,24 +64,34 @@ public class AvailableCoursesMenu implements Menu{
 			for (Course course: courses)
 				if (input.equalsIgnoreCase(course.getCourseId())){
 					if (administration.enrollStudentInCourse(currentUser, course)){
-						selection = "M"; //Return user to appropriate main menu
-						System.out.println("Registration Successful."); //Display confirmation
+						input = "M"; //Return user to appropriate main menu
+						setPrompt(Prompt.REGISTRATION_SUCCESS); //Display confirmation
+						setInputNeeded(false);
 					}
-					else
-						System.out.println("Registration unsuccessful.  You may already be enrolled in this course.");
+					else{
+						setPrompt(Prompt.REGISTRATION_FAIL);
+						setInputNeeded(true);
+						return;
+					}
 				}
 		}
 		
-		if (selection.equals("M"))
+		if (input.equalsIgnoreCase("M"))
 			//Return to appropriate main menu
-			if (AuthenticationService.INSTANCE.validate(currentUser)) 
-				return AuthenticatedMainMenu.getInstance(currentUser);
-			else
-				return MainMenu.getInstance();
+			if (AuthenticationService.INSTANCE.validate(currentUser)) {
+				setInputNeeded(false);
+				setNextMenu(AuthenticatedMainMenu.getInstance(currentUser));
+				return;
+			}
+			else{
+				setInputNeeded(false);
+				setNextMenu(MainMenu.getInstance());
+				return;
+			}
 			
 		//Input not found so it is invalid
-		System.out.println("Invalid input.");
-		return availableCoursesMenu;
+		setPrompt(Prompt.INVALID_INPUT);
+		setInputNeeded(true);
 	}
 	
 	private void printSummary(String summary){

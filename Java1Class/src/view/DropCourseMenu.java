@@ -8,7 +8,7 @@ import persistence.StudentRepository;
 import model.Course;
 import model.Student;
 
-public class DropCourseMenu implements Menu{
+public class DropCourseMenu extends Menu{
 
 	private static final Menu dropCourseMenu = new DropCourseMenu();
 	private static String currentUser;
@@ -31,16 +31,16 @@ public class DropCourseMenu implements Menu{
 		System.out.println("Drop Course");
 		System.out.println(Decoration.DIVIDER);
 		System.out.println("M = Main Menu");
-		System.out.println("Enter course ID.");	
+		System.out.println("Enter course ID.");
+		
+		super.displayMenu();
 	}
 
 	@Override
-	public Menu parseInput(String input) {
+	public void parseInput(String input) {
 		//Ensure input is present
-		if (input == null || input.length() < 1){
-			System.out.println("Invalid input.");
-			return dropCourseMenu;
-		}
+		if (nullOrEmpty(input))
+			return;
 		
 		//Process user input
 		String selection;
@@ -50,12 +50,15 @@ public class DropCourseMenu implements Menu{
 			selection = input.toUpperCase().substring(0, 1);
 
 		//Return to main menu
-		if (selection.equals("M") && AuthenticationService.INSTANCE.validate(currentUser))
-			return AuthenticatedMainMenu.getInstance(currentUser);
+		if (selection.equals("M") && AuthenticationService.INSTANCE.validate(currentUser)){
+			setInputNeeded(false);
+			setNextMenu(AuthenticatedMainMenu.getInstance(currentUser));
+			return;
+		}
 
 		//Input not found so it is invalid
-		System.out.println("Invalid input.");
-		return dropCourseMenu;
+		setPrompt(Prompt.INVALID_INPUT);
+		setInputNeeded(true);
 	}
 	private boolean dropCourse(String input){
 		

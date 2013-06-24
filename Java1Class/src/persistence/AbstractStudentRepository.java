@@ -1,12 +1,12 @@
 package persistence;
 
-import java.util.List;
+import java.util.Set;
 
 import model.Student;
 
 public class AbstractStudentRepository implements StudentRepository{
 
-	private List<Student> students;
+	private Set<Student> students;
 	private StudentPersistence studentPersistance;
 	
 	public AbstractStudentRepository(StudentPersistence studentPersistance){
@@ -30,14 +30,19 @@ public class AbstractStudentRepository implements StudentRepository{
 			return false;
 		
 		//Save student
-		return studentPersistance.persistStudent(newStudent);
+		if (studentPersistance.persistStudent(newStudent)){
+			students = studentPersistance.getStudents();
+			return true;
+		}
+		else 
+			return false;
 	}
 	
 	@Override
 	public int nextStudentID() {
 		int nextId = 1;
 		for(Student student: students)
-			if (student.getStudentId() > nextId)
+			if (student.getStudentId() >= nextId)
 				nextId = student.getStudentId() + 1;
 		
 		return nextId;

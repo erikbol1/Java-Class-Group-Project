@@ -1,36 +1,26 @@
 package view;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-
 import model.ContactInfo;
 import model.Name;
 import model.Student;
 
-import persistence.AuthenticationService;
 import persistence.DataRepository;
 import persistence.StudentRepository;
 
-public class CreateAccountMenu implements Menu{
+public class CreateAccountMenu extends Menu{
 
 	//Class variables
 	private static final Menu createAccountMenu = new CreateAccountMenu();
 	private final StudentRepository studentRepository;
-	//Student successfully saved
-	private boolean success = false;
+	private Prompt currentPrompt;
+	private Prompt previousPrompt;
+	
 	//Variables for building new student
 	private String firstName = null;
 	private String lastName = null;
 	private String username = null;
 	private String email = null;
 	private long phoneNumber = 0L;
-	//Loop related
-	private int loopIndex = -1;//So header only shows once
-	private boolean enableCreationLoop = true;//Prevents recursion due to confirmation dialog
-	private boolean exitConfirmation = false;//Flag to screen for y or n
 
 	private CreateAccountMenu(){
 		studentRepository = DataRepository.INSTANCE;
@@ -41,153 +31,139 @@ public class CreateAccountMenu implements Menu{
 	}
 	@Override
 	public void displayMenu() {
-		if (loopIndex == -1){
 			//Print Header
 			System.out.println(Decoration.DIVIDER);
 			System.out.println("Create Account");
 			System.out.println(Decoration.DIVIDER);
 			System.out.println("M = Main Menu");
 			System.out.println(Decoration.SEPARATOR);
-			loopIndex = 0; //Reset to valid index
-		}
-		//Handle details of create user loop
-		if (enableCreationLoop)
-			createUserLoop();
 
-		//Student saved
-		if (success){
-			System.out.println("You have successfully created a new account.");
-			System.out.println("Please use the username " + username + " to login in the future.");
-			System.out.println("Press enter to continue.");
-			loopIndex = -1;//So header only shows once
-			enableCreationLoop = true;
-		}
-		else{
-			System.out.println(Decoration.SEPARATOR);
-			System.out.println("Are you sure you want to return to the main menu?");
-			System.out.println("Y = Exit to Main Menu");
-			System.out.println("N = Return to Create Account");
-			System.out.println(Decoration.SEPARATOR);
-		}
+			setInputNeeded(true);
+			setPrompt(Prompt.ENTER_FIRST_NAME);
 	}
 
 	/**
 	 * Returns null for an invalid input during create user loop.
 	 */
 	@Override
-	public Menu parseInput(String input) {
-		if (success && AuthenticationService.INSTANCE.validate(username)){
-			success = false;
-			return AuthenticatedMainMenu.getInstance(username);
+	public void parseInput(String input) {
+		if (currentPrompt == Prompt.NEW_ACCOUNT){
+			setInputNeeded(false);
+			setNextMenu(AuthenticatedMainMenu.getInstance(username));
+			return;
 		}
 
 		//Ensure input is present
-		if (input == null || input.length() < 1){
-			System.out.println("Invalid input.");
-			return null;
-		}
+		if (nullOrEmpty(input))
+			return;
 
 		//Check escape clause
-		String menuCheck;
-		if (exitConfirmation)
-			menuCheck = input.toUpperCase().substring(0, 1);
-		else 
-			menuCheck = input.toUpperCase();
-		
+		String menuCheck = input.toUpperCase();
+		if (currentPrompt == Prompt.ABORT)
+			if (menuCheck == "Y"){
+				setInputNeeded(false);
+				setNextMenu(MainMenu.getInstance());
+				return;
+			}
+			else {
+				setInputNeeded(true);
+				setPrompt(previousPrompt);
+				return;
+			}
+
 		switch (menuCheck){
 		case "M": 
-			enableCreationLoop = false;
-			exitConfirmation = true;
-			return MainMenu.getInstance();
-		case "Y": 
-			if (exitConfirmation){
-				enableCreationLoop = true;
-				exitConfirmation = false;
-				loopIndex = -1;//So header only shows once
-				return MainMenu.getInstance();
-				}
-		case "N":
-			if (exitConfirmation){
-				exitConfirmation = false;
-				createUserLoop();
-				return createAccountMenu;//Can not be null otherwise null pointer exception is thrown
-				}
+			setInputNeeded(true);
+			setPrompt(Prompt.ABORT);
+			return;
 		}
 
 		//Switch to populate student attributes
-		switch (loopIndex){
-		case 0: 
+		switch (currentPrompt){
+		case ENTER_FIRST_NAME: 
 			firstName = input;
-			loopIndex++;
-			return null;
+			setInputNeeded(true);
+			setPrompt(Prompt.ENTER_LAST_NAME);
+			return;
 
-		case 1: 
+		case ENTER_LAST_NAME: 
 			lastName = input;
-			loopIndex++;
-			return null;
+			setInputNeeded(true);
+			setPrompt(Prompt.ENTER_USERNAME);
+			return;
 
-		case 2: //usernames must be unique
+		case DUPLICATE_USERNAME:
+		case ENTER_USERNAME: //usernames must be unique
 			if (usernameAvailable(input)){
 				username = input;
-				loopIndex++;
+				setPrompt(Prompt.ENTER_EMAIL);
 			}
 			else
-				System.out.println("Please choose another username.");
-			
-			return null;
+				setPrompt(Prompt.DUPLICATE_USERNAME);
 
-		case 3: 
+			setInputNeeded(true);
+			return;
+
+		case ENTER_EMAIL: 
 			email = input;
-			loopIndex++;
-			return null;
+			setInputNeeded(true);
+			setPrompt(Prompt.ENTER_PHONE_NUMBER);
+			return;
 
-		case 4: 
+		case INVALID_PHONE_NUMBER:
+		case ENTER_PHONE_NUMBER: 
 			try {
 			phoneNumber = Long.parseLong(input);
-			loopIndex++;
+			createStudent();
+			setPrompt(Prompt.NEW_ACCOUNT);
 			}
 			catch (NumberFormatException e) {
-				System.out.println("Please enter phone number without any spaces or formatting.");
+				setPrompt(Prompt.INVALID_PHONE_NUMBER);
 			}
-			return null;
-
+			setInputNeeded(true);
+			return;
+		default:
+			break;
 		}
 		
 		//This should never be reached
-		System.out.println("Invalid Input.");
-		return null;
-	}
-
-	private void createUserLoop(){
-		//User prompts during loop.
-		List<String> prompts = new ArrayList<String>();
-		prompts.add("Enter your first name.");
-		prompts.add("Enter your last name.");
-		prompts.add("Enter a username.");
-		prompts.add("Enter your email address.");
-		prompts.add("Enter your phone number.");
-
-		while (loopIndex != prompts.size())//Loop index is updated in parseInput method 
-		{			
-			System.out.println(prompts.get(loopIndex));
-			try {
-				Menu result = parseInput(new BufferedReader(new InputStreamReader(System.in)).readLine());
-				if (result != null)
-					return;//Exit method
-				System.out.println(Decoration.SEPARATOR);
-			} catch (IOException e) {
-				//e.printStackTrace(); //Uncomment if needed for debugging purposes
-			}
-		} 
-		//Build newStudent
-		Student newStudent = new Student(studentRepository.nextStudentID(), new Name(firstName, lastName), username, new ContactInfo(email, phoneNumber));
-		//Save student
-		success = studentRepository.saveStudent(newStudent);
+		setPrompt(Prompt.INVALID_INPUT);
+		setInputNeeded(true);
 	}
 	
 	private boolean usernameAvailable(String input){
 		
 		return studentRepository.getStudent(input) == null;
 	}
-
+	
+	private void createStudent(){
+		//Build newStudent
+		Student newStudent = new Student(studentRepository.nextStudentID(), new Name(firstName, lastName), username.toUpperCase(), new ContactInfo(email, phoneNumber));
+		//Save student
+		System.out.println(studentRepository.saveStudent(newStudent));
+	}
+	
+	@Override
+	protected void setPrompt(Prompt prompt){
+		super.setPrompt(prompt);
+		if (prompt == Prompt.ABORT)
+			previousPrompt = currentPrompt;
+			
+		currentPrompt = prompt;
+	}
+	@Override
+	public void displayPrompt(){
+		super.displayPrompt();
+		
+		if (currentPrompt == Prompt.ABORT){
+			System.out.println("Y = Exit to Main Menu");
+			System.out.println("N = Return to Create Account");
+			System.out.println(Decoration.SEPARATOR);
+		}
+		
+		if (currentPrompt == Prompt.NEW_ACCOUNT){
+			System.out.println("Please use the username " + username + " to login in the future.");
+			System.out.println("Press enter to continue.");
+		}
+	}
 }
