@@ -6,11 +6,11 @@ import java.io.InputStreamReader;
 
 import view.MainMenu;
 import view.Menu;
+import view.Prompt;
 
 
 /**
  * @author Erik Bollinger
- * @author Jennifer Burmester
  */
 public class RegistrationSystem {
 
@@ -30,7 +30,7 @@ public class RegistrationSystem {
 					menu.parseInput(new BufferedReader(new InputStreamReader(System.in)).readLine());
 				} catch (IOException e) {
 					//e.printStackTrace(); //Uncomment if needed for debugging purposes
-					System.out.println("Invalid Input.");
+					System.out.println(Prompt.INVALID_INPUT);
 				}
 			}
 			

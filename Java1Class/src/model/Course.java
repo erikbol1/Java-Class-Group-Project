@@ -2,7 +2,11 @@ package model;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
+/**
+ * 
+ * @author Erik B
+ * @author Jennifer Burmester
+ */
 public class Course implements Comparable <Course> {
 
 	//instance variables

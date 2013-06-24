@@ -8,6 +8,8 @@ import java.util.Set;
 
 /**
  * This class contains constructor for student inputs, and methods for getting student information
+ * @author Erik B
+ * @author Jennifer Burmester
  */
 public class Student {
 
